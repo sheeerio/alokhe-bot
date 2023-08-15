@@ -7,6 +7,22 @@ const commands = [
         description: 'Transliterate your sentence!',
         options: [
             {
+                name: 'kind',
+                description: 'Mode of transliteratation.',
+                type: ApplicationCommandOptionType.String,
+                choices: [
+                    {
+                        name: 'English to Hindi',
+                        value: 'eng-to-hin',
+                    },
+                    {
+                        name: 'Hinglish to Hindi',
+                        value: 'hing-to-hin',
+                    }
+                ],
+                required: true,
+            },
+            {
                 name: 'sentence',
                 description: 'Your sentence.',
                 type: ApplicationCommandOptionType.String,

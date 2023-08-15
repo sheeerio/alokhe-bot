@@ -41,7 +41,7 @@ let status = [
 
 client.on('ready', () => {
     console.log("The bot is online");
-
+    client.user.setActivity(status[0]);
     setInterval(() => {
         let random = Math.floor(Math.random() * status.length);
         client.user.setActivity(status[random]);
@@ -52,19 +52,22 @@ client.on('interactionCreate', (interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
     if (interaction.commandName === 'transliterate') {
+        const kind_str = interaction.options.get('kind').value;
         const input_str = interaction.options.get('sentence').value;
 
-        console.log(input_str);
-        let url = 'https://alokhe.herokuapp.com/' + input_str;
-        var reply;
-        fetch(url)
-        .then(res => res.json())
-        .then(out => {
-            reply = out;
-        }).then(() => {
-            interaction.reply('The transliterated sentence is' + reply[0].text.hinout);
-        })
-        .catch(err => { throw err });
+        if (kind_str === 'eng-to-hin') {
+            console.log(input_str);
+            let url = 'https://alokhe.herokuapp.com/' + input_str;
+            var reply;
+            fetch(url)
+            .then(res => res.json())
+            .then(out => {
+                reply = out;
+            }).then(() => {
+                interaction.reply('The transliterated sentence is' + reply[0].text.hinout);
+            })
+            .catch(err => { throw err });
+        }
     }
 });
 
