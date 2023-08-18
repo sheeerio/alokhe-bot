@@ -26,7 +26,7 @@ const commands = [
                 name: 'sentence',
                 description: 'Your sentence.',
                 type: ApplicationCommandOptionType.String,
-                choices: [
+                options: [
                     {
                         name: 'Hi! This is an example english sentence',
                         value: 'Hi! This is an example english sentence',
