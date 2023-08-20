@@ -1,5 +1,21 @@
 require('dotenv').config();
 const {Client, IntentsBitField, ActivityType} = require('discord.js');
+// const OpenAI = require('openai-api');
+// import { Configuration, OpenAIApi } from "openai";
+// const configuration = new Configuration({
+//     organization: "org-jYsZmjWG5d37f7GG9YUjjXYd",
+//     apiKey: process.env.API_KEY,
+// });
+// const openai = new OpenAIApi(configuration);
+// const OPENAI_API_KEY = process.env.API_KEY;
+// const openai = new OpenAI(OPENAI_API_KEY);
+
+const { OpenAIClient } = require('@fern-api/openai');
+
+const openclient = new OpenAIClient({
+  token: process.env.API_KEY,
+});
+
 
 const client = new Client({
     intents: [
@@ -48,14 +64,14 @@ client.on('ready', () => {
     }, 300000);
 });
 
-client.on('interactionCreate', (interaction) => {
+client.on('interactionCreate', async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
     if (interaction.commandName === 'transliterate') {
         const kind_str = interaction.options.get('kind').value;
         const input_str = interaction.options.get('sentence').value;
 
-        if (kind_str === 'eng-to-hin') {
+        if (kind_str === 'eng-to-hin') { // english to hindi
             console.log(input_str);
             let url = 'https://alokhe.herokuapp.com/' + input_str;
             var reply;
@@ -67,39 +83,25 @@ client.on('interactionCreate', (interaction) => {
                 interaction.reply('The transliterated sentence is' + reply[0].text.hinout);
             })
             .catch(err => { throw err });
+        } else if (kind_str === 'hing-to-hin') { // hinglish to hindi
+            let conversationLog = [{role: 'system', content: 'hey can you transliterate the \
+            // following hindi-english sentence into devanagari\nsentence: '}];
+
+            conversationLog.push({
+                role: 'user',
+                content: input_str,
+            });
+
+            const result = await openclient.chat.createCompletion({
+                model: "gpt-3.5-turbo",
+                messages: conversationLog,
+            })
+
+            interaction.reply(result.choices[0].message.content);
+
+            // interaction.reply(result.data.choices[0].message);
         }
     }
-});
-
-client.on('messageCreate', async (message) => {
-    if (message.author.bot) return;
-    if (message.content.startsWith('!')) return;
-    
-    // ;(async function() {
-    //     let url = 'https://alokhe.herokuapp.com/' + message.content;
-    //     reply = await fetch(url)
-    //     .then(res => res.json())
-    //     .then(out =>
-    //       console.log(out[0].text.hinout))
-    //     .catch(err => { throw err });
-    // })()
-    
-    let url = 'https://alokhe.herokuapp.com/' + message.content;
-    var reply;
-    fetch(url)
-    .then(res => res.json())
-    .then(out => {
-      reply = out;
-    }).then(() => {
-        message.reply(reply[0].text.hinout);
-    })
-    .catch(err => { throw err });
-
-    console.log(message);
-    // console.log(reply);
-
-    await message.channel.sendTyping();
-    // message.reply(reply[0].text.hinout);
 });
 
 client.login(process.env.TOKEN);
