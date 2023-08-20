@@ -18,7 +18,7 @@ const commands = [
                     {
                         name: 'Hinglish to Hindi',
                         value: 'hing-to-hin',
-                    }
+                    },
                 ],
                 required: true,
             },

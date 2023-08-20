@@ -97,7 +97,8 @@ client.on('interactionCreate', async (interaction) => {
                 messages: conversationLog,
             })
 
-            interaction.reply(result.choices[0].message.content);
+            interaction.reply('The transliteration sentence is ' 
+            + result.choices[0].message.content);
 
             // interaction.reply(result.data.choices[0].message);
         }
