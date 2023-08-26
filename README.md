@@ -12,7 +12,7 @@ The discord bot currently supports-
   ```
   Example sentence: Don't forget to be passionate:
   ```
-  input: \transliterate kind:English to Hindi sentence:Don't forget to be passionate
+  input: /transliterate kind:English to Hindi sentence:Don't forget to be passionate
   output: The transliterated sentence is डोंट फर्गैट टू बी पैशनट
   ```
 - Hindi-English to Hindi transliteration
@@ -21,7 +21,7 @@ The discord bot currently supports-
   ```
   Example sentence: bhoola mat karo please:
   ```
-  input: \transliterate kind: Hinglish to Hindi sentence:bhoola mat karo please
+  input: /transliterate kind: Hinglish to Hindi sentence:bhoola mat karo please
   output: The transliterated sentence is भूला मत करो प्लीज़
   ```
 ## More language-pairs will be added soon.
